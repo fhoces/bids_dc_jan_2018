@@ -30,23 +30,22 @@ surveys %>%
 # #http://www.datacarpentry.org/R-ecology-lesson/03-dplyr.html#reshaping_with_gather_and_spread
 
 # Challenge 1: spread
-
-surveys %>%
+s_data <- surveys %>%
   group_by(year, plot_id) %>% 
   summarise(var1 = n_distinct(genus)) %>% 
     spread(key = year, value = var1)
 
-# Challenge 2: gather
+# Challenge 2: gather back
 
 
-# Challenge 3: 
+# Challenge 3: gather multiple cols
 g_data <- surveys %>%
   gather(key = measurement, 
          value = lw, 
          hindfoot_length:weight) 
 
 # Challenge 4: 
-g_data %>% group_by(year, plot_type, measurement) %>% 
+hlm_sum <- g_data %>% group_by(year, plot_type, measurement) %>% 
             summarise(mlw = mean(lw, na.rm = T)) %>% 
                 spread(key = measurement, value = mlw)
         
