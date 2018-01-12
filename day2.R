@@ -51,3 +51,28 @@ hlm_sum <- g_data %>% group_by(year, plot_type, measurement) %>%
         
 
 
+# Exporting data 
+surveys_complete <- surveys %>%
+  filter(!is.na(weight),           # remove missing weight
+         !is.na(hindfoot_length),  # remove missing hindfoot_length
+         !is.na(sex))  
+
+
+## Extract the most common species_id
+species_counts <- surveys_complete %>%
+  group_by(species_id) %>%
+  tally() %>%
+  filter(n >= 50)
+
+## Only keep the most common species
+surveys_complete <- surveys_complete %>%
+  filter(species_id %in% species_counts$species_id)
+
+## export data
+write_csv(surveys_complete, path = "data_output/surveys_complete.csv")
+
+
+surveys_complete <- read_csv("data_output/surveys_complete.csv")
+
+ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) +
+  geom_point()
