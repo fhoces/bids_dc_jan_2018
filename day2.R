@@ -72,7 +72,15 @@ surveys_complete <- surveys_complete %>%
 write_csv(surveys_complete, path = "data_output/surveys_complete.csv")
 
 
+
+# Viz 
 surveys_complete <- read_csv("data_output/surveys_complete.csv")
 
+# First plot
 ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) +
   geom_point()
+
+# Second plot
+ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) +
+  geom_point(alpha = 0.1, aes(color = species_id))
+
